@@ -7,7 +7,7 @@ require_relative 'lib/data_validation'
 require_relative 'lib/csv_writer'
 require_relative 'lib/sheet'
 
-filenames = Dir.glob("../*.csv")
+filenames = Dir.glob(Dir.home + "/Downloads/*.csv")
 
 mode = ARGV[0]
 
