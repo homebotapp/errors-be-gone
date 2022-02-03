@@ -1,0 +1,55 @@
+types:
+  string:
+
+  dollars:
+    strip:
+      - '#'
+      - '$'
+      - ','
+    valid: 'is_decimal'
+
+  date:
+    valid: 'is_date'
+
+  integer:
+    strip:
+      - '#'
+      - '$'
+      - ','
+    valid: 'is_integer'
+
+  gender:
+    valid: 'is_gender'
+
+  email:
+    valid: 'is_email'
+
+  address:
+    valid: 'is_address'
+
+  zipcode:
+    strip:
+      - ':carrier_route'
+    valid: 'is_zipcode'
+
+  interest_rate:
+    round: 0.125
+    valid: 'is_interest_rate'
+
+  phone:
+    valid: 'is_phone'
+
+  nmls_loan_type:
+    valid: 'is_nmls_loan_type'
+
+  birthday:
+    valid: 'is_birthday'
+
+  loan_term:
+    valid: 'is_loan_term'
+
+  locale:
+    valid: 'to_locale'
+
+  boolean:
+    valid: 'is_boolean'

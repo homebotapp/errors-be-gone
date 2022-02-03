@@ -1,0 +1,87 @@
+headers:
+
+  - name: 'First Name'
+    required: true
+    parser: string
+    present: true
+
+  - name: 'Last Name'
+    required: true
+    parser: string
+    present: true
+
+  - name: 'Email'
+    required: true
+    parser: email
+    present: true
+
+  - name: 'Phone'
+    required: false
+    parser: phone
+    present: true
+
+  - name: 'Zip Codes'
+    required: false
+    parser: zipcode
+    present: true
+    array: true
+
+  - name: 'Price Point'
+    required: false
+    parser: dollars
+    present: false
+
+  - name: 'Language Preference'
+    required: false
+    parser: locale
+    present: false
+
+  - name: 'Max Loan Amount'
+    required: false
+    parser: dollars
+    present: false
+
+  - name: 'Downpayment'
+    required: false
+    parser: dollars
+    present: false
+
+  - name: 'Max Home Price'
+    required: false
+    parser: dollars
+    present: false
+
+  - name: 'Estimated Rate'
+    required: false
+    parser: interest_rate
+    present: false
+
+  - name: 'Loan Type'
+    required: false
+    parser: string
+    present: false
+
+  - name: 'Loan Term Months'
+    required: false
+    parser: integer
+    present: false
+
+  - name: 'Loan Adjustable'
+    required: false
+    parser: boolean
+    present: false
+
+  - name: 'Loan ARM Years Initial'
+    required: false
+    parser: integer
+    present: false
+
+  - name: 'Expires At'
+    required: false
+    parser: date
+    present: false
+
+  - name: 'Preapproved'
+    required: false
+    parser: boolean
+    present: false
