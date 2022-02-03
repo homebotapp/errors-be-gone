@@ -32,7 +32,9 @@ filenames.each do |file|
   data_validator.call(sheet)
 
   if header_validator.issue == true || data_validator.issue == true
-     File.rename(file, "../**"+file.split('/')[1])
+    filename_split = file.split("/")
+    filename_split[-1] = "**" + file.split('/')[-1]
+    File.rename(file, filename_split.join('/'))
   end
 end
 
