@@ -33,7 +33,7 @@ filenames.each do |file|
 
   if header_validator.issue == true || data_validator.issue == true
     filename_split = file.split("/")
-    filename_split[-1] = "**" + file.split('/')[-1]
+    filename_split[-1] = "**" + filename_split[-1]
     File.rename(file, filename_split.join('/'))
   end
 end
