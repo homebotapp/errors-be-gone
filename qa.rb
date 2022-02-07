@@ -24,7 +24,7 @@ filenames.each do |file|
   end
 
   # frontend
-  if mode == '-a' && sheet.file_type == 'Archive'
+  if mode == '-a'
     csv_writer.add_file(sheet)
   end
 
