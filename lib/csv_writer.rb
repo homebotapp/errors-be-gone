@@ -76,7 +76,7 @@ class CsvWriter
 
     output.puts("\nAll NMLS IDs:\n", @nmls_ids.join("")[0..-2])
     output.puts("\nIndividual NMLS IDs:\n", @indv_nmls_ids.join("")[0..-2])
-    output.puts("\n", "#{@total_rows} | #{@indv_nmls_ids.uniq.size} files")
+    output.puts("\n", "#{@total_rows} total rows | #{@indv_nmls_ids.uniq.size} individual files | #{@number_of_files} total files (indv. + multipleLOs)")
 
     unless duplicate_customer.empty?
       output.puts("\n", "#{duplicate_customer.uniq.join(", ")} has/have multiple files. You should have #{@indv_nmls_ids.uniq.size} unique customers.")
