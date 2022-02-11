@@ -73,6 +73,6 @@ class Sheet
   end
 
   def multiple_los?()
-    @file.downcase.split('-').any? { |s| s.include?('multiplelos')}
+    @file.downcase.split('-').any? { |s| s.include?('multiplelos') || s.include?(%q[multiplelo's])}
   end
 end
