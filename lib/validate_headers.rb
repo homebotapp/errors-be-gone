@@ -119,22 +119,22 @@ class ValidateHeaders
     @issue = false
 
     if duplicate_headers?
-      puts "#{company_name} - #{customer_name} has duplicate headers: #{duplicate_headers.map(&:capitalize).uniq.join(", ")}"
+      puts "[#{company_name} - #{customer_name}] has duplicate headers: #{duplicate_headers.map(&:capitalize).uniq.join(", ")}"
       @issue = true
     end
 
     if missing_required?
-      puts "#{company_name} - #{customer_name} is missing a required header: #{missing_required.map(&:capitalize).join(", ")}"
+      puts "[#{company_name} - #{customer_name}] is missing a required header: #{missing_required.map(&:capitalize).join(", ")}"
       @issue = true
     end
 
     if sheet.nmls_ids == 'error'
-      puts "#{company_name} - #{customer_name} does not have the 'NMLS Loan Originator ID' column capatilized, or included at all."
+      puts "[#{company_name} - #{customer_name}] does not have the 'NMLS Loan Originator ID' column capatilized, or included at all."
       @issue = true
     end
 
     unless valid_headers?
-      puts "#{company_name} - #{customer_name} has invalid headers: #{valid_headers.map(&:capitalize).join(", ")}"
+      puts "[#{company_name} - #{customer_name}] has invalid headers: #{valid_headers.map(&:capitalize).join(", ")}"
       @issue = true
     end
   end

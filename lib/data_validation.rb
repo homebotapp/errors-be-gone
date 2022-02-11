@@ -25,43 +25,43 @@ class DataValidation
     case @file_type
     when 'Archive'
       if property_valuation_columns?
-        puts "#{@company_name} - #{@customer_name} has dates in one of the valuation columns."
+        puts "[#{@company_name} - #{@customer_name}] has dates in one of the valuation columns."
         @issue = true
       end
 
       if parse_and_validate('closing date', 'is_date').size > 0
-        puts "#{@company_name} - #{@customer_name} has an invalid closing date(s): #{parse_and_validate('closing date', 'is_date').join(", ")}"
+        puts "[#{@company_name} - #{@customer_name}] has an invalid closing date(s): #{parse_and_validate('closing date', 'is_date').join(", ")}"
         @issue = true
       end
 
       if parse_and_validate('loan term', 'is_loan_term').size > 0
-        puts "#{@company_name} - #{@customer_name} has an invalid loan term(s): #{parse_and_validate('loan term', 'is_loan_term').join(", ")}"
+        puts "[#{@company_name} - #{@customer_name}] has an invalid loan term(s): #{parse_and_validate('loan term', 'is_loan_term').join(", ")}"
         @issue = true
       end
 
       if parse_and_validate('nmls loan type', 'is_nmls_loan_type').size > 0 && parse_and_validate('nmls loan type', 'is_nmls_loan_type').size <= 10
-        puts "#{@company_name} - #{@customer_name} has an invalid nmls loan type(s): #{parse_and_validate('nmls loan type', 'is_nmls_loan_type').join(", ")}"
+        puts "[#{@company_name} - #{@customer_name}] has an invalid nmls loan type(s): #{parse_and_validate('nmls loan type', 'is_nmls_loan_type').join(", ")}"
         @issue = true
       elsif parse_and_validate('nmls loan type', 'is_nmls_loan_type').size > 10
-        puts "#{@company_name} - #{@company_name} has >5 invalid nmls loan types, check that column."
+        puts "[#{@company_name} - #{@company_name}] has >5 invalid nmls loan types, check that column."
         @issue = true
       end
 
       if blank_nmls_ids?
-        puts "#{@company_name} - #{@customer_name} has blank NMLS IDs."
+        puts "[#{@company_name} - #{@customer_name}] has blank NMLS IDs."
         @issue = true
       end
 
       unless sheet.multi
         if multiple_nmls_ids?
-          puts "#{@company_name} - #{@customer_name} has multiple NMLS IDs in their file."
+          puts "[#{@company_name} - #{@customer_name}] has multiple NMLS IDs in their file."
           @issue = true
         end
       end
 
     when 'Frontend'
       if property_valuation_columns?
-        puts "#{@company_name} - #{@customer_name} has dates in one of the valuation columns."
+        puts "[#{@company_name} - #{@customer_name}] has dates in one of the valuation columns."
         @issue = true
       end
     when 'Buyers'
