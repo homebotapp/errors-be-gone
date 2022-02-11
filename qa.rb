@@ -10,6 +10,7 @@ require_relative 'lib/sheet'
 filenames = Dir.glob(Dir.home + "/Downloads/*.csv")
 
 mode = ARGV[0]
+issue = false
 
 csv_writer = CsvWriter.new()
 header_validator = ValidateHeaders.new()
@@ -32,12 +33,14 @@ filenames.each do |file|
   data_validator.call(sheet)
 
   if header_validator.issue == true || data_validator.issue == true
+    issue = true
+
     filename_split = file.split("/")
     filename_split[-1] = "**" + filename_split[-1]
     File.rename(file, filename_split.join('/'))
   end
 end
 
-if mode == '-a'
+if mode == '-a' && issue == false
   csv_writer.write_file()
 end
