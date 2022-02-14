@@ -3,6 +3,7 @@ class Sheet
 
   def initialize(file)
     @file = file
+    @open_file = CSV.parse(File.read(@file), headers: true)
     @company_name = get_company_name()
     @customer_name = get_customer_name()
     @rows = get_number_of_rows()
@@ -19,20 +20,16 @@ class Sheet
   end
 
   def get_nmls_ids()
-    if @file_type == 'Archive'
-      open_file = CSV.parse(File.read(@file), headers: true)
-
-      unless open_file.headers.include?('NMLS Loan Originator ID')
-        @nmls_ids = 'error'
-      else
-        if @multi
-          open_file['NMLS Loan Originator ID'].uniq.each do |id|
-            @nmls_ids.push("'#{id}',")
-          end
-        else
-          @nmls_ids.push("'#{open_file[0]['NMLS Loan Originator ID']}',")
+    if @open_file.headers.include?('NMLS Loan Originator ID')
+      if @multi
+        @open_file['NMLS Loan Originator ID'].uniq.each do |id|
+          @nmls_ids.push("'#{id}',")
         end
+      else
+        @nmls_ids.push("'#{@open_file[0]['NMLS Loan Originator ID']}',")
       end
+    else
+        @nmls_ids = 'error'
     end
   end
 
