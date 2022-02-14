@@ -43,7 +43,7 @@ class DataValidation
         puts "[#{@company_name} - #{@customer_name}] has an invalid nmls loan type(s): #{parse_and_validate('nmls loan type', 'is_nmls_loan_type').join(", ")}"
         @issue = true
       elsif parse_and_validate('nmls loan type', 'is_nmls_loan_type').size > 10
-        puts "[#{@company_name} - #{@company_name}] has >5 invalid nmls loan types, check that column."
+        puts "[#{@company_name} - #{@customer_name}] has >5 invalid nmls loan types, check that column."
         @issue = true
       end
 
