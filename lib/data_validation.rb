@@ -29,6 +29,11 @@ class DataValidation
         @issue = true
       end
 
+      if parse_and_validate('borr email', 'is_email').size > 0
+        puts "[#{@company_name} - #{@customer_name}] has an invalid email(s): #{parse_and_validate('borr email', 'is_email').join(", ")}"
+        @issue = true
+      end
+
       if parse_and_validate('closing date', 'is_date').size > 0
         puts "[#{@company_name} - #{@customer_name}] has an invalid closing date(s): #{parse_and_validate('closing date', 'is_date').join(", ")}"
         @issue = true
