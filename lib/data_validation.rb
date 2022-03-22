@@ -34,7 +34,7 @@ class DataValidation
         @issue = true
       end
 
-      if parse_and_validate('borr email', 'is_email')
+      if parse_and_validate('borr email', 'is_email').size > 0
         puts "[#{@company_name} - #{@customer_name}] has an invalid email(s): #{parse_and_validate('borr email', 'is_email').join(", ")}"
         @issue = true
       end
