@@ -39,6 +39,26 @@ class DataValidation
         @issue = true
       end
 
+      if parse_and_validate('borr dob', 'is_birthday')
+        puts "[#{@company_name} - #{@customer_name}] has an invalid birth date(s): #{parse_and_validate('borr dob', 'is_birthday').join(", ")}"
+        @issue = true
+      end
+
+      if parse_and_validate('borr email', 'is_email')
+        puts "[#{@company_name} - #{@customer_name}] has an invalid email(s): #{parse_and_validate('borr email', 'is_email').join(", ")}"
+        @issue = true
+      end
+
+      if parse_and_validate('co-borr email', 'is_email')
+        puts "[#{@company_name} - #{@customer_name}] has an invalid email(s): #{parse_and_validate('co-borr email', 'is_email').join(", ")}"
+        @issue = true
+      end
+
+      if parse_and_validate('co-borr dob', 'is_birthday')
+        puts "[#{@company_name} - #{@customer_name}] has an invalid birth date(s): #{parse_and_validate('co-borr dob', 'is_birthday').join(", ")}"
+        @issue = true
+      end
+
       if parse_and_validate('loan term', 'is_loan_term').size > 0
         puts "[#{@company_name} - #{@customer_name}] has an invalid loan term(s): #{parse_and_validate('loan term', 'is_loan_term').join(", ")}"
         @issue = true
@@ -67,6 +87,26 @@ class DataValidation
     when 'Frontend'
       if property_valuation_columns?
         puts "[#{@company_name} - #{@customer_name}] has dates in one of the valuation columns."
+        @issue = true
+      end
+
+      if parse_and_validate('borr dob', 'is_birthday')
+        puts "[#{@company_name} - #{@customer_name}] has an invalid birth date(s): #{parse_and_validate('borr dob', 'is_birthday').join(", ")}"
+        @issue = true
+      end
+
+      if parse_and_validate('borr email', 'is_email')
+        puts "[#{@company_name} - #{@customer_name}] has an invalid email(s): #{parse_and_validate('borr email', 'is_email').join(", ")}"
+        @issue = true
+      end
+
+      if parse_and_validate('co-borr email', 'is_email')
+        puts "[#{@company_name} - #{@customer_name}] has an invalid email(s): #{parse_and_validate('co-borr email', 'is_email').join(", ")}"
+        @issue = true
+      end
+
+      if parse_and_validate('co-borr dob', 'is_birthday')
+        puts "[#{@company_name} - #{@customer_name}] has an invalid birth date(s): #{parse_and_validate('co-borr dob', 'is_birthday').join(", ")}"
         @issue = true
       end
     when 'Buyers'
