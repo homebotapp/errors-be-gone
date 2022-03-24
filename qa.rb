@@ -33,11 +33,16 @@ filenames.each do |file|
     File.rename(file, filename_split.join('/'))
 
     next
+  elsif sheet.file_type != 'Archive' && mode == '-a'
+    puts "#{sheet.company_name} - #{sheet.customer_name} was not validated as an Archive file (Sheet not named Archive) and could have issues that were not checked.\n".yellow
   end
 
-  # frontend
   if mode == '-a' || mode == '-o'
     csv_writer.add_file(sheet)
+  end
+
+  if sheet.issues > 0
+    puts "The follwing NMLS IDs have whitespce included #{sheet.issues} from #{sheet.company_name} - #{sheet.customer_name}'s sheet. This may cause discrepencies with the Archive query.'"
   end
 
   header_validator.call(sheet)

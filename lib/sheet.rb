@@ -1,5 +1,13 @@
 class Sheet
-  attr_accessor :company_name, :customer_name, :rows, :nmls_ids, :file_type, :update_name, :multi, :addl_file, :file
+  attr_accessor :company_name,
+                :customer_name,
+                :rows,
+                :nmls_ids,
+                :file_type,
+                :update_name,
+                :multi,
+                :addl_file,
+                :file
 
   def initialize(file)
     @file = file
@@ -11,6 +19,7 @@ class Sheet
     @update_name = get_update_name()
     @multi = multiple_los?()
     @nmls_ids = []
+    @issues = nmls_whitespace()
     get_nmls_ids()
     @addl_file = additional_file?()
   end
@@ -71,5 +80,15 @@ class Sheet
 
   def multiple_los?()
     @file.downcase.split('-').any? { |s| s.include?('multiplelos') || s.include?(%q[multiplelo's])}
+  end
+
+  def nmls_whitespace()
+    ids_with_spaces = []
+    @nmls_ids.each do |nmls|
+      if nmls.include?(' ')
+        ids_with_spaces.push(nmls)
+      end
+    end
+    ids_with_spaces
   end
 end
