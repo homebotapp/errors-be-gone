@@ -57,7 +57,7 @@ class DataValidation
 
     when 'Buyers'
       @yaml = YAML.load_file('yml/buyers.yml')
-      
+
       @open_file.headers.each do |column|
         if @yaml.include?(column)
           value_issues = parse_and_validate(column, @yaml[column]['parser'], @yaml[column]['present'])
@@ -105,11 +105,13 @@ class DataValidation
       val_s.match?(/\A\d*\.?\d*\z/)\
 
     when 'is_integer'
-      val_s.match?(/\d+/)
+      val_s.match?(/\d+/) &&
+      !val_s.include?('$')
 
     when 'is_property_value'
       val_s.match?(/\d+/) &&
-      (val_s.delete(',').to_i > 10000 || val_s.delete(',').to_i == 0)
+      (val_s.delete(',').to_i > 10000 || val_s.delete(',').to_i == 0) &&
+      !val_s.include?('$')
 
     when 'is_gender'
       val_s.match?(/\Am|f\z/)
