@@ -114,11 +114,11 @@ class DataValidation
       !val_s.include?('$')
 
     when 'is_gender'
-      val_s.match?(/\Am|f\z/)
+      val_s.match?(/\AMale|Female\z/)
 
     when 'is_email'
       val_s.match?(/[\w-]+@([\w-]+\.)+[\w-]+/) &&
-        !val_s.match?(/\A(none|noemail|fakeemail)@/)
+        !val_s.match?(/\A(none|noemail|fakeemail|na)@/)
 
     when 'is_address'
       # return false if val_s.match?(/(;|&|\+|(\s+and\s+))+/)
