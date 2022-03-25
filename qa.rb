@@ -16,6 +16,7 @@ mode = ARGV[0]
 needs_fixing = false
 
 files = 0
+files_with_issues = 0
 
 csv_writer = CsvWriter.new()
 header_validator = ValidateHeaders.new()
@@ -41,7 +42,7 @@ filenames.each do |file|
     csv_writer.add_file(sheet)
   end
 
-  if sheet.issues > 0
+  if sheet.issues.size > 0
     puts "The follwing NMLS IDs have whitespce included #{sheet.issues} from #{sheet.company_name} - #{sheet.customer_name}'s sheet. This may cause discrepencies with the Archive query.'"
   end
 
@@ -52,6 +53,8 @@ filenames.each do |file|
   issues = data_validator.issues.merge(issues)
 
   unless issues.empty?
+    files_with_issues += 1
+
     puts "#{sheet.company_name} - #{sheet.customer_name} had the following issues:".red
     puts(JSON.pretty_generate(issues), "\n")
 
@@ -65,7 +68,7 @@ end
 
 case needs_fixing
 when true
-  puts %Q[Some files reported a few issues. "**" has been added to filename of files with reported issues. #{files} files were checked.].yellow
+  puts %Q[#{files_with_issues} file(s) reported at least one issue. "**" has been added to filename of files with reported issues. #{files} files were checked.].yellow
 
   if mode == '-o'
     csv_writer.write_file()

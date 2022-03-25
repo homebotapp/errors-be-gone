@@ -7,7 +7,8 @@ class Sheet
                 :update_name,
                 :multi,
                 :addl_file,
-                :file
+                :file,
+                :issues
 
   def initialize(file)
     @file = file
