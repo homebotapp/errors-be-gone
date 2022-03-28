@@ -1,11 +1,11 @@
 first name:
   required: true
-  parser:
+  parser: 'is_string'
   present: true
 
 last name:
   required: true
-  parser:
+  parser: 'is_string'
   present: true
 
 email:

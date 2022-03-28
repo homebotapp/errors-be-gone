@@ -98,11 +98,14 @@ class DataValidation
     val_s = val.to_s.strip
 
     case validation_type
+    when 'is_string'
+      val_s.scan(/\d/).empty?
+
     when 'is_date'
       Date.strptime(val_s, '%m/%d/%Y') && true rescue false
 
     when 'is_decimal'
-      val_s.match?(/\A\d*\.?\d*\z/)\
+      val_s.match?(/\A\d*\.?\d*\z/)
 
     when 'is_integer'
       val_s.match?(/\d+/) &&
@@ -144,6 +147,7 @@ class DataValidation
       rescue
       end
       now = Date.today.year
+      # issue
       (now - past < 100) rescue false
 
     when 'is_loan_term'

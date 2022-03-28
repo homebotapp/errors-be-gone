@@ -1,11 +1,11 @@
 borrower first/middle name:
   required: true
-  parser:
+  parser: 'is_string'
   present: true
 
 borrower last name/suffix:
   required: true
-  parser:
+  parser: 'is_string'
   present: true
 
 borr cell phone:
@@ -55,12 +55,12 @@ borr language preference:
 
 co-borrower first/middle name:
   required: false
-  parser:
+  parser: 'is_string'
   present: false
 
 co-borrower last name/suffix:
   required: false
-  parser:
+  parser: 'is_string'
   present: false
 
 co-borr cell phone:
@@ -175,7 +175,7 @@ expenses proposed haz ins:
 
 occupancy (psi):
   required: false
-  parser:
+  parser: 'is_string'
   present: false
 
 "parcel#":
@@ -245,7 +245,7 @@ loan term:
 
 loan purpose:
   required: false
-  parser:
+  parser: 'is_string'
   present: false
 
 closing date:
