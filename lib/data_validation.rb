@@ -133,7 +133,7 @@ class DataValidation
     when 'is_interest_rate'
       val_s.match?(/\A\d*\.?\d*\z/) &&
       val_s.to_f >= 0 &&
-      val_s.to_f < 10
+      val_s.to_f < 13
 
     when 'is_phone'
       val_s.match?(/\A(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}/)
@@ -158,6 +158,9 @@ class DataValidation
 
     when 'is_boolean'
       %w[true false].include?(val_s.downcase)
+
+    when 'is_buyers_value'
+      !%w[. ,].include?(val_s)
 
     else
       false

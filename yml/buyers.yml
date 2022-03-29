@@ -25,7 +25,7 @@ zip codes:
 
 price point:
   required: false
-  parser:
+  parser: 'is_buyers_value'
   present: false
 
 language preference:
@@ -35,17 +35,17 @@ language preference:
 
 max loan amount:
   required: false
-  parser:
+  parser: 'is_buyers_value'
   present: false
 
 downpayment:
   required: false
-  parser:
+  parser: 'is_buyers_value'
   present: false
 
 max home price:
   required: false
-  parser:
+  parser: 'is_buyers_value'
   present: false
 
 estimated rate:
