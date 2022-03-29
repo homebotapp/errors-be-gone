@@ -8,7 +8,7 @@ class ValidateHeaders
               :required_headers_frontend,
               :required_headers_buyers,
               :file_type,
-              :issue
+              :issues
 
   def initialize
     @all_headers = ['Borrower First/Middle Name',
@@ -86,28 +86,45 @@ class ValidateHeaders
                     'Loan Number',
                     'Lender Case #',
                     'HUD Escrow Monthly Payment',
-                    'FHA Anticipated Premium Due']
+                    'FHA Anticipated Premium Due',]
+    @all_headers_buyers = ['First Name',
+                    'Last Name',
+                    'Email',
+                    'Phone',
+                    'Zip Codes',
+                    'Price Point',
+                    'Language Preference',
+                    'Max Loan Amount',
+                    'Downpayment',
+                    'Max Home Price',
+                    'Estimated Rate',
+                    'Loan Type',
+                    'Loan Term Months',
+                    'Loan Adjustable',
+                    'Loan ARM Years Initial',
+                    'Expires At',
+                    'Preapproved']
     @required_headers_archive = ['Borrower First/Middle Name',
-                         'Borrower Last Name/Suffix',
-                         'Borr Email',
-                         'Subject Property Address',
-                         'Subject Property Zip',
-                         'Total Loan Amount',
-                         'Interest Rate',
-                         'Loan Term',
-                         'Loan Purpose',
-                         'Closing Date',
-                         'NMLS Loan Originator ID',
-                         'Lender NMLS ID',
-                         'NMLS Loan Type']
+                    'Borrower Last Name/Suffix',
+                    'Borr Email',
+                    'Subject Property Address',
+                    'Subject Property Zip',
+                    'Total Loan Amount',
+                    'Interest Rate',
+                    'Loan Term',
+                    'Loan Purpose',
+                    'Closing Date',
+                    'NMLS Loan Originator ID',
+                    'Lender NMLS ID',
+                    'NMLS Loan Type']
     @required_headers_frontend = ['Borrower First/Middle Name',
-                          'Borrower Last Name/Suffix',
-                          'Borr Email',
-                          'Subject Property Address',
-                          'Subject Property Zip',]
-    @required_headers_buyers = ['Frist Name',
-                          'Last Name',
-                          'Email']
+                    'Borrower Last Name/Suffix',
+                    'Borr Email',
+                    'Subject Property Address',
+                    'Subject Property Zip',]
+    @required_headers_buyers = ['First Name',
+                    'Last Name',
+                    'Email']
   end
 
   def call(sheet)
@@ -116,27 +133,54 @@ class ValidateHeaders
     @company_name = sheet.company_name
     @customer_name = sheet.customer_name
     @file_type = sheet.file_type
-    @issue = false
+    @issues = {}
 
-    if duplicate_headers?
-      puts "[#{company_name} - #{customer_name}] has duplicate headers: #{duplicate_headers.map(&:capitalize).uniq.join(", ")}"
-      @issue = true
+    case @file_type
+    when 'Archive'
+      if duplicate_headers?
+        @issues['Duplicate Headers'] = duplicate_headers.map(&:capitalize).uniq
+      end
+
+      if missing_required?
+        @issues['Missing Required Headers'] = missing_required.map(&:capitalize)
+      end
+
+      if sheet.nmls_ids == 'error'
+        @issues['NMLS Originator ID Missing or Incorrectly Capatilzied'] = true
+      end
+
+      unless valid_headers?
+        @issues['Invalid Headers'] = valid_headers.map(&:capitalize)
+      end
+
+    when 'Frontend'
+      if duplicate_headers?
+        @issues['Duplicate Headers'] = duplicate_headers.map(&:capitalize).uniq
+      end
+
+      if missing_required?
+        @issues['Missing Required Headers'] = missing_required.map(&:capitalize)
+      end
+
+      unless valid_headers?
+        @issues['Invalid Headers'] = valid_headers.map(&:capitalize)
+      end
+
+    when 'Buyers'
+      if duplicate_headers?
+        @issues['Duplicate Headers'] = duplicate_headers.map(&:capitalize).uniq
+      end
+
+      if missing_required?
+        @issues['Missing Required Headers'] = missing_required.map(&:capitalize)
+      end
+
+      unless valid_headers?
+        @issues['Invalid Headers'] = valid_headers.map(&:capitalize)
+      end
+
     end
 
-    if missing_required?
-      puts "[#{company_name} - #{customer_name}] is missing a required header: #{missing_required.map(&:capitalize).join(", ")}"
-      @issue = true
-    end
-
-    if sheet.nmls_ids == 'error'
-      puts "[#{company_name} - #{customer_name}] does not have the 'NMLS Loan Originator ID' column capatilized, or included at all."
-      @issue = true
-    end
-
-    unless valid_headers?
-      puts "[#{company_name} - #{customer_name}] has invalid headers: #{valid_headers.map(&:capitalize).join(", ")}"
-      @issue = true
-    end
   end
 
   def duplicate_headers
@@ -163,10 +207,16 @@ class ValidateHeaders
   end
 
   def valid_headers
-    invalid_headers = @headers - all_headers.map(&:downcase)
+    invalid_headers = []
+
+    if @file_type == 'Buyers'
+      invalid_headers = @headers - @all_headers_buyers.map(&:downcase)
+    else
+      invalid_headers = @headers - @all_headers.map(&:downcase)
+    end
 
     if @headers.include?(nil)
-      invalid_headers.push('BLANK(S)')
+      invalid_headers.push('blank(s)')
     end
 
     invalid_headers

@@ -1,87 +1,84 @@
-headers:
+first name:
+  required: true
+  parser: 'is_string'
+  present: true
 
-  - name: 'First Name'
-    required: true
-    parser: string
-    present: true
+last name:
+  required: true
+  parser: 'is_string'
+  present: true
 
-  - name: 'Last Name'
-    required: true
-    parser: string
-    present: true
+email:
+  required: true
+  parser: 'is_email'
+  present: true
 
-  - name: 'Email'
-    required: true
-    parser: email
-    present: true
+phone:
+  required: false
+  parser: 'is_phone'
+  present: false
 
-  - name: 'Phone'
-    required: false
-    parser: phone
-    present: true
+zip codes:
+  required: false
+  parser:
+  present: false
 
-  - name: 'Zip Codes'
-    required: false
-    parser: zipcode
-    present: true
-    array: true
+price point:
+  required: false
+  parser: 'is_buyers_value'
+  present: false
 
-  - name: 'Price Point'
-    required: false
-    parser: dollars
-    present: false
+language preference:
+  required: false
+  parser: 'is_locale'
+  present: false
 
-  - name: 'Language Preference'
-    required: false
-    parser: locale
-    present: false
+max loan amount:
+  required: false
+  parser: 'is_buyers_value'
+  present: false
 
-  - name: 'Max Loan Amount'
-    required: false
-    parser: dollars
-    present: false
+downpayment:
+  required: false
+  parser: 'is_buyers_value'
+  present: false
 
-  - name: 'Downpayment'
-    required: false
-    parser: dollars
-    present: false
+max home price:
+  required: false
+  parser: 'is_buyers_value'
+  present: false
 
-  - name: 'Max Home Price'
-    required: false
-    parser: dollars
-    present: false
+estimated rate:
+  required: false
+  parser: 'is_interest_rate'
+  present: false
 
-  - name: 'Estimated Rate'
-    required: false
-    parser: interest_rate
-    present: false
+loan type:
+  required: false
+  parser:
+  present: false
 
-  - name: 'Loan Type'
-    required: false
-    parser: string
-    present: false
+loan term months:
+  required: false
+  parser:
+  present: false
 
-  - name: 'Loan Term Months'
-    required: false
-    parser: integer
-    present: false
+loan adjustable:
+  required: false
+  parser:
+  present: false
 
-  - name: 'Loan Adjustable'
-    required: false
-    parser: boolean
-    present: false
+loan arm years initial:
+  required: false
+  parser:
+  present: false
 
-  - name: 'Loan ARM Years Initial'
-    required: false
-    parser: integer
-    present: false
+expires at:
+  required: false
+  parser: 'is_date'
+  present: false
 
-  - name: 'Expires At'
-    required: false
-    parser: date
-    present: false
-
-  - name: 'Preapproved'
-    required: false
-    parser: boolean
-    present: false
+preapproved:
+  required: false
+  parser: 'is_boolean'
+  present: false

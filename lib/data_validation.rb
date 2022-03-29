@@ -1,14 +1,16 @@
+require 'YAML'
+
 class DataValidation
   attr_reader :csv,
               :open_file,
               :company_name,
               :client_name,
               :valid_loan_terms,
-              :issue,
+              :issues,
               :valid_nmls_loan_types,
               :file_type,
               :headers,
-              :issue
+              :yaml
 
   def initialize
   end
@@ -20,56 +22,50 @@ class DataValidation
     @company_name = sheet.company_name
     @customer_name = sheet.customer_name
     @file_type = sheet.file_type
-    @issue = false
+    @issues = {}
 
     case @file_type
     when 'Archive'
-      if property_valuation_columns?
-        puts "[#{@company_name} - #{@customer_name}] has dates in one of the valuation columns."
-        @issue = true
-      end
+      @yaml = YAML.load_file('yml/lo.yml')
 
-      if parse_and_validate('closing date', 'is_date').size > 0
-        puts "[#{@company_name} - #{@customer_name}] has an invalid closing date(s): #{parse_and_validate('closing date', 'is_date').join(", ")}"
-        @issue = true
-      end
-
-      if parse_and_validate('borr email', 'is_email').size > 0
-        puts "[#{@company_name} - #{@customer_name}] has an invalid email(s): #{parse_and_validate('borr email', 'is_email').join(", ")}"
-        @issue = true
-      end
-
-      if parse_and_validate('loan term', 'is_loan_term').size > 0
-        puts "[#{@company_name} - #{@customer_name}] has an invalid loan term(s): #{parse_and_validate('loan term', 'is_loan_term').join(", ")}"
-        @issue = true
-      end
-
-      if parse_and_validate('nmls loan type', 'is_nmls_loan_type').size > 0 && parse_and_validate('nmls loan type', 'is_nmls_loan_type').size <= 10
-        puts "[#{@company_name} - #{@customer_name}] has an invalid nmls loan type(s): #{parse_and_validate('nmls loan type', 'is_nmls_loan_type').join(", ")}"
-        @issue = true
-      elsif parse_and_validate('nmls loan type', 'is_nmls_loan_type').size > 10
-        puts "[#{@company_name} - #{@customer_name}] has >5 invalid nmls loan types, check that column."
-        @issue = true
-      end
-
-      if blank_nmls_ids?
-        puts "[#{@company_name} - #{@customer_name}] has blank NMLS IDs."
-        @issue = true
+      @open_file.headers.each do |column|
+        if @yaml.include?(column)
+          value_issues = parse_and_validate(column, @yaml[column]['parser'], @yaml[column]['present'])
+          if value_issues.size > 0
+            @issues[column] = value_issues
+          end
+        end
       end
 
       unless sheet.multi
         if multiple_nmls_ids?
-          puts "[#{@company_name} - #{@customer_name}] has multiple NMLS IDs in their file."
-          @issue = true
+          @issues['nmls loan originator id'] = ['multiple nmls ids']
         end
       end
 
     when 'Frontend'
-      if property_valuation_columns?
-        puts "[#{@company_name} - #{@customer_name}] has dates in one of the valuation columns."
-        @issue = true
+      @yaml = YAML.load_file('yml/rea.yml')
+
+      @open_file.headers.each do |column|
+        if @yaml.include?(column)
+          value_issues = parse_and_validate(column, @yaml[column]['parser'], @yaml[column]['present'])
+          if value_issues.size > 0
+            @issues[column] = value_issues
+          end
+        end
       end
+
     when 'Buyers'
+      @yaml = YAML.load_file('yml/buyers.yml')
+
+      @open_file.headers.each do |column|
+        if @yaml.include?(column)
+          value_issues = parse_and_validate(column, @yaml[column]['parser'], @yaml[column]['present'])
+          if value_issues.size > 0
+            @issues[column] = value_issues
+          end
+        end
+      end
 
     end
   end
@@ -78,55 +74,22 @@ class DataValidation
     @open_file['nmls loan originator id'].uniq.size > 1
   end
 
-  def property_valuation_columns?
-    purchase_price_column = @open_file['subject property purchase price']
-    appraised_value_column = @open_file['subject property appraised value']
-
-    if purchase_price_values?(purchase_price_column) || appraised_price_values?(appraised_value_column)
-      true
-    else
-      false
-    end
-  end
-
-  def purchase_price_values?(column)
-    result = false
-    column.each do |value|
-      if valid?(value, 'is_date')
-        result = true
-        break
-      end
-    end
-    result
-  end
-
-  def appraised_price_values?(column)
-    result = false
-    column.each do |value|
-      if valid?(value, 'is_date')
-        result = true
-        break
-      end
-    end
-    result
-  end
-
-  def parse_and_validate(column_name, data_type)
+  def parse_and_validate(column_name, data_type, present)
     invalid_values = []
     row_number = 1
+
     @open_file[column_name].each do |value|
       row_number += 1
-      if value.nil?
-        invalid_values.push("Blank (row #{row_number})")
+      if value.nil? || value == " "
+        if present
+          invalid_values.push("blank (row #{row_number})")
+        end
       elsif valid?(value, data_type) == false
-        invalid_values.push(value + "(row #{row_number})")
+        invalid_values.push(value.to_s + " (row #{row_number})")
       end
     end
-    invalid_values
-  end
 
-  def blank_nmls_ids?
-    @open_file['nmls loan originator id'].include?(nil)
+    invalid_values
   end
 
   def valid?(val, validation_type)
@@ -135,31 +98,42 @@ class DataValidation
     val_s = val.to_s.strip
 
     case validation_type
+    when 'is_string'
+      val_s.scan(/\d/).empty?
+
     when 'is_date'
       Date.strptime(val_s, '%m/%d/%Y') && true rescue false
 
     when 'is_decimal'
-      val_s.match?(/\A\d*\.?\d*\z/)\
+      val_s.match?(/\A\d*\.?\d*\z/)
 
     when 'is_integer'
-      val_s.match?(/\d+/)
+      val_s.match?(/\d+/) &&
+      !val_s.include?('$')
+
+    when 'is_property_value'
+      val_s.match?(/\d+/) &&
+      (val_s.delete(',').to_i > 10000 || val_s.delete(',').to_i == 0) &&
+      !val_s.include?('$')
 
     when 'is_gender'
-      val_s.match?(/\Am|f\z/)
+      val_s.match?(/\AMale|Female\z/)
 
     when 'is_email'
       val_s.match?(/[\w-]+@([\w-]+\.)+[\w-]+/) &&
-        !val_s.match?(/\A(none|noemail|fakeemail)@/)
+        !val_s.match?(/\A(none|noemail|fakeemail|na)@/)
 
     when 'is_address'
-      return false if val_s.match?(/(;|&|\+|(\s+and\s+))+/)
+      # return false if val_s.match?(/(;|&|\+|(\s+and\s+))+/)
       val_s.match?(/(\d)+(-?)[a-zA-Z]?\s+([a-zA-Z0-9])+/)
 
     when 'is_zipcode'
       val_s.match?(/^[0-9]{5}$/)
 
     when 'is_interest_rate'
-      val_s.match?(/^\d*\.{1}\d*$/)
+      val_s.match?(/\A\d*\.?\d*\z/) &&
+      val_s.to_f >= 0 &&
+      val_s.to_f < 13
 
     when 'is_phone'
       val_s.match?(/\A(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}/)
@@ -173,6 +147,7 @@ class DataValidation
       rescue
       end
       now = Date.today.year
+      # issue
       (now - past < 100) rescue false
 
     when 'is_loan_term'
@@ -183,6 +158,9 @@ class DataValidation
 
     when 'is_boolean'
       %w[true false].include?(val_s.downcase)
+
+    when 'is_buyers_value'
+      !%w[. ,].include?(val_s)
 
     else
       false

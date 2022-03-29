@@ -1,376 +1,379 @@
-headers:
-
-  - name: 'Borrower First/Middle Name'
-    required: true
-    parser: string
-    present: true
-
-  - name: 'Borrower Last Name/Suffix'
-    required: true
-    parser: string
-    present: true
-
-  - name: 'Borr Cell Phone'
-    required: false
-    parser: phone
-    present: false
-
-  - name: 'Borr Email'
-    required: true
-    parser: email
-    present: true
-
-  - name: 'Subject Property Address'
-    required: true
-    parser: address
-    present: true
-
-  - name: 'Subject Property Zip'
-    required: true
-    parser: zipcode
-    present: true
-
-  - name: 'Borr Language Preference'
-    required: false
-    parser: locale
-    present: false
-            #(?)
-  - name: 'Co-Borrower First/Middle Name'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'Co-Borrower Last Name/Suffix'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'Co-Borr Email'
-    required: false
-    parser: email
-    present: false
-
-  - name: 'Total Loan Amount'
-    required: false
-    parser: dollars
-    present: false
-
-  - name: 'Interest Rate'
-    required: false
-    parser: interest_rate
-    present: false
-
-  - name: 'Loan Term'
-    required: false
-    parser: loan_term
-    present: false
-
-  - name: 'Loan Purpose'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'NMLS Loan Originator ID'
-    required: false
-    parser: integer
-    present: false
-
-  - name: 'Closing Date'
-    required: false
-    parser: date
-    present: false
-
-  - name: 'Lender NMLS ID'
-    required: false
-    parser: integer
-    present: false
-
-  - name: 'Borr Marital Status'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'Borr Dependent #'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'Borr Dependent Ages'
-    required: false
-    parser: integer
-    present: false
-
-  - name: 'Borr Sex Male/Female'
-    required: false
-    parser: gender
-    present: false
-
-  - name: 'Borr DOB'
-    required: false
-    parser: birthday
-    present: false
-
-  - name: 'Income Borr Total Income'
-    required: false
-    parser: dollars
-    present: false
-
-  - name: 'Co-Borr Marital Status'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'Co-Borr # Dependents'
-    required: false
-    parser: integer
-    present: false
-
-  - name: 'Co-Borr Dependents Ages'
-    required: false
-    parser: integer
-    present: false
-
-  - name: 'Co-Borr Cell Phone'
-    required: false
-    parser: phone
-    present: false
-
-  - name: 'Co-Borr DOB'
-    required: false
-    parser: birthday
-    present: false
-
-  - name: 'Co-Borr Sex Male/Female'
-    required: false
-    parser: gender
-    present: false
-
-  - name: 'Co-Borr Language Preference'
-    required: false
-    parser: locale
-    present: false
-
-  - name: 'Income Co-Borr Total Income'
-    required: false
-    parser: dollars
-    present: false
-
-  - name: 'Subject Property Appraised Value'
-    required: false
-    parser: dollars
-    present: false
-
-  - name: 'HOA Dues'
-    required: false
-    parser: dollars
-    present: false
-
-  - name: 'Fees Flood Ins Per Mo'
-    required: false
-    parser: dollars
-    present: false
-
-  - name: 'Hazard Insurance Company Name'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'Expenses Proposed Haz Ins'
-    required: false
-    parser: dollars
-    present: false
-
-  - name: 'File Contacts Settlement Agent Co Name'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'Occupancy (PSI)'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'Expenses Proposed Total Housing'
-    required: false
-    parser: dollars
-    present: false
-
-  - name: 'Subject Property Purchase Price'
-    required: false
-    parser: dollars
-    present: false
-
-  - name: 'Subject Property Purchase Date'
-    required: false
-    parser: dollars
-    present: false
-
-  - name: 'Year Acquired'
-    required: false
-    parser: integer
-    present: false
-
-  - name: 'Appraisal Received'
-    required: false
-    parser: dollars
-    present: false
-
-  - name: 'Parcel#'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'Real Estate Broker B Name'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'Real Estate Broker B Address'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'Real Estate Broker B Zip'
-    required: false
-    parser: zipcode
-    present: false
-
-  - name: 'Real Estate Broker B State License'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'Real Estate Broker B Contact'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'Real Estate Broker B Contact State License'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'Real Estate Broker B Contact Email'
-    required: false
-    parser: email
-    present: false
-
-  - name: 'Real Estate Broker B Contact Office Phone'
-    required: false
-    parser: phone
-    present: false
-
-  - name: 'FICO'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'Total Monthly Payment'
-    required: false
-    parser: dollars
-    present: false
-
-  - name: 'Refi Purpose'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'Refinance Type'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'Lien Position'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'Amort Type'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'ARM Index'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'ARM Rate Cap'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'ARM First Period Change'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'ARM Margin'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'ARM Life Cap'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'First Rate Adjustment Cap'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'APR'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'Expenses Proposed Mtg Ins'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'List of Loan Special Programs'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'First Payment Due Date'
-    required: false
-    parser: date
-    present: false
-
-  - name: 'HUD Escrow Monthly Payment'
-    required: false
-    parser: dollars
-    present: false
-
-  - name: 'Loan Type'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'NMLS Loan Type'
-    required: false
-    parser: nmls_loan_type
-    present: false
-
-  - name: 'Insurance MTG Ins Upfront Factor'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'Loan Number'
-    required: false
-    parser: string
-    present: false
-
-  - name: 'Lender Case #'
-    required: false
-    parser: string
-    required: false
-
-  - name: 'List of Loan Special Programs'
-    required: false
-    parser: string
-    required: false
+borrower first/middle name:
+  required: true
+  parser: 'is_string'
+  present: true
+
+borrower last name/suffix:
+  required: true
+  parser: 'is_string'
+  present: true
+
+borr cell phone:
+  required: false
+  parser: 'is_phone'
+  present: false
+
+borr email:
+  required: true
+  parser: 'is_email'
+  present: true
+
+borr marital status:
+  required: false
+  parser:
+  present: false
+
+"borr dependent #":
+  required: false
+  parser:
+  present: false
+
+borr dependent ages:
+  required: false
+  parser:
+  present: false
+
+borr sex male/female:
+  required: false
+  parser: 'is_gender'
+  present: false
+
+borr dob:
+  required: false
+  parser: 'is_birthday'
+  present: false
+
+income borr total income:
+  required: false
+  parser: 'is_integer'
+  present: false
+
+borr language preference:
+  required: false
+  parser: 'is_locale'
+  present: false
+
+co-borrower first/middle name:
+  required: false
+  parser: 'is_string'
+  present: false
+
+co-borrower last name/suffix:
+  required: false
+  parser: 'is_string'
+  present: false
+
+co-borr cell phone:
+  required: false
+  parser: 'is_phone'
+  present: false
+
+co-borr email:
+  required: false
+  parser: 'is_email'
+  present: false
+
+co-borr marital status:
+  required: false
+  parser:
+  present: false
+
+"co-borr # dependents":
+  required: false
+  parser:
+  present: false
+
+co-borr dependents ages:
+  required: false
+  parser:
+  present: false
+
+co-borr dob:
+  required: false
+  parser: 'is_birthday'
+  present: false
+
+co-borr sex male/female:
+  required: false
+  parser: 'is_gender'
+  present: false
+
+income co-borr total income:
+  required: false
+  parser:
+  present: false
+
+co-borr language preference:
+  required: false
+  parser: 'is_locale'
+  present: false
+
+subject property address:
+  required: true
+  parser: 'is_address'
+  present: true
+
+subject property zip:
+  required: true
+  parser: 'is_zipcode'
+  present: true
+
+subject property appraised value:
+  required: false
+  parser: 'is_property_value'
+  present: false
+
+subject property appraised date:
+  required: false
+  parser: 'is_date'
+  present: false
+
+subject property purchase price:
+  required: false
+  parser: 'is_property_value'
+  present: false
+
+subject property purchase date:
+  required: false
+  parser: 'is_date'
+  present: false
+
+original cost:
+  required: false
+  parser: 'is_integer'
+  present: false
+
+year acquired:
+  required: false
+  parser:
+  present: false
+
+hoa dues:
+  required: false
+  parser: 'is_integer'
+  present: false
+
+expenses proposed total housing:
+  required: false
+  parser: 'is_integer'
+  present: false
+
+fees flood ins per mo:
+  required: false
+  parser: 'is_integer'
+  present: false
+
+hazard insurance company name:
+  required: false
+  parser:
+  present: false
+
+expenses proposed haz ins:
+  required: false
+  parser: 'is_integer'
+  present: false
+
+occupancy (psi):
+  required: false
+  parser: 'is_string'
+  present: false
+
+"parcel#":
+  required: false
+  parser:
+  present: false
+
+title insurance company name:
+  required: false
+  parser:
+  present: false
+
+real estate broker b name:
+  required: false
+  parser:
+  present: false
+
+real estate broker b address:
+  required: false
+  parser:
+  present: false
+
+real estate broker b zip:
+  required: false
+  parser:
+  present: false
+
+real estate broker b state license:
+  required: false
+  parser:
+  present: false
+
+real estate broker b contact:
+  required: false
+  parser:
+  present: false
+
+real estate broker b contact state license:
+  required: false
+  parser:
+  present: false
+
+real estate broker b contact email:
+  required: false
+  parser:
+  present: false
+
+real estate broker b contact office phone:
+  required: false
+  parser:
+  present: false
+
+total loan amount:
+  required: false
+  parser: 'is_integer'
+  present: false
+
+interest rate:
+  required: false
+  parser: 'is_interest_rate'
+  present: false
+
+loan term:
+  required: false
+  parser: 'is_loan_term'
+  present: false
+
+loan purpose:
+  required: false
+  parser: 'is_string'
+  present: false
+
+closing date:
+  required: false
+  parser: 'is_date'
+  present: false
+
+nmls loan originator id:
+  required: false
+  parser:
+  present: false
+
+lender nmls id:
+  required: false
+  parser:
+  present: false
+
+nmls loan type:
+  required: false
+  parser: 'is_nmls_loan_type'
+  present: false
+
+first payment due date:
+  required: false
+  parser: 'is_date'
+  present: false
+
+refi purpose:
+  required: false
+  parser:
+  present: false
+
+refinance type:
+  required: false
+  parser:
+  present: false
+
+lien position:
+  required: false
+  parser:
+  present: false
+
+amort type:
+  required: false
+  parser:
+  present: false
+
+total monthly payment:
+  required: false
+  parser:
+  present: false
+
+mortgage insurance premium:
+  required: false
+  parser: 'is_decimal'
+  present: false
+
+apr:
+  required: false
+  parser:
+  present: false
+
+arm index:
+  required: false
+  parser:
+  present: false
+
+arm rate cap:
+  required: false
+  parser:
+  present: false
+
+arm first period change:
+  required: false
+  parser:
+  present: false
+
+arm margin:
+  required: false
+  parser:
+  present: false
+
+arm life cap:
+  required: false
+  parser:
+  present: false
+
+first rate adjustment cap:
+  required: false
+  parser:
+  present: false
+
+list of loan special programs:
+  required: false
+  parser:
+  present: false
+
+dpa grant program:
+  required: false
+  parser:
+  present: false
+
+loan type:
+  required: false
+  parser:
+  present: false
+
+insurance mtg ins upfront factor:
+  required: false
+  parser: 'is_decimal'
+  present: false
+
+loan number:
+  required: false
+  parser:
+  present: false
+
+"lender case #":
+  required: false
+  parser:
+  present: false
+
+hud escrow monthly payment:
+  required: false
+  parser:
+  present: false
+
+fha anticipated premium due:
+  required: false
+  parser:
+  present: false
