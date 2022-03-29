@@ -38,7 +38,7 @@ filenames.each do |file|
     puts "#{sheet.company_name} - #{sheet.customer_name} was not validated as an Archive file (Sheet not named Archive) and could have issues that were not checked.\n".yellow
   end
 
-  if mode == '-a' || mode == '-o'
+  if sheet.file_type == 'Archive' && (mode == '-a' || mode == '-o')
     csv_writer.add_file(sheet)
   end
 
