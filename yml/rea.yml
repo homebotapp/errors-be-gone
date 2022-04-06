@@ -295,12 +295,12 @@ amort type:
 
 total monthly payment:
   required: false
-  parser:
+  parser: 'is_integer'
   present: false
 
 mortgage insurance premium:
   required: false
-  parser: 'is_decimal'
+  parser: 'is_integer'
   present: false
 
 apr:

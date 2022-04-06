@@ -43,7 +43,7 @@ filenames.each do |file|
   end
 
   if sheet.issues.size > 0
-    puts "The follwing NMLS IDs have whitespce included #{sheet.issues} from #{sheet.company_name} - #{sheet.customer_name}'s sheet. This may cause discrepencies with the Archive query.'"
+    puts "The follwing NMLS IDs have whitespce included #{sheet.issues} from #{sheet.company_name} - #{sheet.customer_name}'s sheet. This may cause discrepencies with the Archive query."
   end
 
   header_validator.call(sheet)
