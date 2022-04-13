@@ -2,8 +2,7 @@
 ## Ensuring our QA is a great as we are.
 
 ### Prerequisites:
-There is a way for this to be done automatically... but I haven't looked into how just yet.
-- Prior to running you will need Ruby installed on your machine.
+- Requires Ruby is installed on your machine.
 - I believe you will also need the gem file **Colorize** installed. To install **Colorize** run: ```sudo gem install colorize```
 
 ## How To
