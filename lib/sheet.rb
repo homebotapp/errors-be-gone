@@ -80,7 +80,7 @@ class Sheet
   end
 
   def multiple_los?()
-    @file.downcase.split('-').any? { |s| s.include?('multiplelos') || s.include?(%q[multiplelo's])}
+    @file.downcase.split('-').any? { |s| s.include?('multiplelos') || s.include?(%q[multiplelo's]) || s.include?('multilos')}
   end
 
   def nmls_whitespace()
