@@ -43,6 +43,13 @@ class DataValidation
         end
       end
 
+      if @open_file.headers.include?('subject property purchase date') && @open_file.headers.include?('closing date')
+        value_issues = predateing_closing_dates(@open_file['subject property purchase date'], @open_file['closing date'])
+        if value_issues.size > 0
+          @issues['closing date predating purchase date'] = value_issues
+        end
+      end
+
     when 'Frontend'
       @yaml = YAML.load_file('yml/rea.yml')
 
@@ -72,6 +79,24 @@ class DataValidation
 
   def multiple_nmls_ids?
     @open_file['nmls loan originator id'].uniq.size > 1
+  end
+
+  def predateing_closing_dates(purchase_date_column, closing_date_column)
+    invalid_values = []
+    row_number = 1
+
+    combined = purchase_date_column.zip(closing_date_column).each do |pairs|
+      row_number += 1
+
+      purchase_date = Date.strptime(pairs[0], '%m/%d/%Y') rescue nil
+      closing_date = Date.strptime(pairs[1], '%m/%d/%Y') rescue nil
+
+      if purchase_date != nil && closing_date != nil && purchase_date > closing_date
+        invalid_values.push("Purchase Date: #{pairs[0]} Closing Date: #{pairs[1]} (row #{row_number})")
+      end
+    end
+
+    invalid_values
   end
 
   def parse_and_validate(column_name, data_type, present)
