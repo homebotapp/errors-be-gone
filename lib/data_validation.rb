@@ -92,7 +92,9 @@ class DataValidation
       closing_date = Date.strptime(pairs[1], '%m/%d/%Y') rescue nil
 
       if purchase_date != nil && closing_date != nil && purchase_date > closing_date
-        invalid_values.push("Purchase Date: #{pairs[0]} Closing Date: #{pairs[1]} (row #{row_number})")
+        #invalid_values.push("Purchase Date: #{pairs[0]} Closing Date: #{pairs[1]} (row #{row_number})")
+        invalid_values.push("At least one issue found. Check if Purchase Date > Closing Date.")
+        break
       end
     end
 
