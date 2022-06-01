@@ -116,7 +116,13 @@ class DataValidation
       end
     end
 
-    invalid_values
+    if invalid_values.length > 20
+      ["More than 20 issues found. Some examples are the following:", invalid_values[0], invalid_values[9], invalid_values[19]]
+    else
+      invalid_values
+    end
+
+    # invalid_values
   end
 
   def valid?(val, validation_type)
