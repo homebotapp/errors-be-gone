@@ -138,44 +138,84 @@ class ValidateHeaders
     case @file_type
     when 'Archive'
       if duplicate_headers?
+        CSV.open("stats-for-nerds.csv", "a") do |csv|
+          csv << [sheet.file.split('/')[-1], Time.now.to_s, 'Archive', 'header_validation', 'duplicate_headers', duplicate_headers.map(&:capitalize).uniq]
+        end
+
         @issues['Duplicate Headers'] = duplicate_headers.map(&:capitalize).uniq
       end
 
       if missing_required?
+        CSV.open("stats-for-nerds.csv", "a") do |csv|
+          csv << [sheet.file.split('/')[-1], Time.now.to_s, 'Archive', 'header_validation', 'missing_required_headers', missing_required.map(&:capitalize)]
+        end
+
         @issues['Missing Required Headers'] = missing_required.map(&:capitalize)
       end
 
       if sheet.nmls_ids == 'error'
+        CSV.open("stats-for-nerds.csv", "a") do |csv|
+          csv << [sheet.file.split('/')[-1], Time.now.to_s, 'Archive', 'header_validation', 'nmls_origintor_syntax']
+        end
+
         @issues['NMLS Originator ID Missing or Incorrectly Capatilzied'] = true
       end
 
       unless valid_headers?
+        CSV.open("stats-for-nerds.csv", "a") do |csv|
+          csv << [sheet.file.split('/')[-1], Time.now.to_s, 'Archive', 'header_validation', 'invalid_headers', valid_headers.map(&:capitalize)]
+        end
+
         @issues['Invalid Headers'] = valid_headers.map(&:capitalize)
       end
 
     when 'Frontend'
       if duplicate_headers?
+        CSV.open("stats-for-nerds.csv", "a") do |csv|
+          csv << [sheet.file.split('/')[-1], Time.now.to_s, 'Frontend', 'header_validation', 'duplicate_headers', duplicate_headers.map(&:capitalize).uniq]
+        end
+
         @issues['Duplicate Headers'] = duplicate_headers.map(&:capitalize).uniq
       end
 
       if missing_required?
+        CSV.open("stats-for-nerds.csv", "a") do |csv|
+          csv << [sheet.file.split('/')[-1], Time.now.to_s, 'Frontend', 'header_validation', 'missing_required_headers', missing_required.map(&:capitalize)]
+        end
+
         @issues['Missing Required Headers'] = missing_required.map(&:capitalize)
       end
 
       unless valid_headers?
+        CSV.open("stats-for-nerds.csv", "a") do |csv|
+          csv << [sheet.file.split('/')[-1], Time.now.to_s, 'Frontend', 'header_validation', 'valid_headers', valid_headers.map(&:capitalize)]
+        end
+
         @issues['Invalid Headers'] = valid_headers.map(&:capitalize)
       end
 
     when 'Buyers'
       if duplicate_headers?
+        CSV.open("stats-for-nerds.csv", "a") do |csv|
+          csv << [sheet.file.split('/')[-1], Time.now.to_s, 'Frontend', 'header_validation', 'duplicate_headers', duplicate_headers.map(&:capitalize).uniq]
+        end
+
         @issues['Duplicate Headers'] = duplicate_headers.map(&:capitalize).uniq
       end
 
       if missing_required?
+        CSV.open("stats-for-nerds.csv", "a") do |csv|
+          csv << [sheet.file.split('/')[-1], Time.now.to_s, 'Buyers', 'header_validation', 'missing_required_headers', missing_required.map(&:capitalize)]
+        end
+
         @issues['Missing Required Headers'] = missing_required.map(&:capitalize)
       end
 
       unless valid_headers?
+        CSV.open("stats-for-nerds.csv", "a") do |csv|
+          csv << [sheet.file.split('/')[-1], Time.now.to_s, 'Buyers', 'header_validation', 'valid_headers', valid_headers.map(&:capitalize)]
+        end
+
         @issues['Invalid Headers'] = valid_headers.map(&:capitalize)
       end
 

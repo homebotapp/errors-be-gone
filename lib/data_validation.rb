@@ -1,4 +1,6 @@
 require 'YAML'
+require 'time'
+require 'csv'
 
 class DataValidation
   attr_reader :csv,
@@ -32,6 +34,14 @@ class DataValidation
         if @yaml.include?(column)
           value_issues = parse_and_validate(column, @yaml[column]['parser'], @yaml[column]['present'])
           if value_issues.size > 0
+            CSV.open("stats-for-nerds.csv", "a") do |csv|
+              csv << [sheet.file.split('/')[-1], Time.now.to_s, 'Archive', 'data_validation', column.to_s, value_issues]
+            end
+
+            if value_issues.length > 20
+              value_issues = ["More than 20 issues found. Some examples are the following:", value_issues[0], value_issues[9], value_issues[-1]]
+            end 
+
             @issues[column] = value_issues
           end
         end
@@ -39,6 +49,10 @@ class DataValidation
 
       unless sheet.multi
         if multiple_nmls_ids?
+          CSV.open("stats-for-nerds.csv", "a") do |csv|
+            csv << [sheet.file.split('/')[-1], Time.now.to_s, 'Archive', 'data_validation', 'nmls loan originator id', ['multiple NMLS ids']]
+          end
+
           @issues['nmls loan originator id'] = ['multiple nmls ids']
         end
       end
@@ -46,6 +60,14 @@ class DataValidation
       if @open_file.headers.include?('subject property purchase date') && @open_file.headers.include?('closing date')
         value_issues = predateing_closing_dates(@open_file['subject property purchase date'], @open_file['closing date'])
         if value_issues.size > 0
+          CSV.open("stats-for-nerds.csv", "a") do |csv|
+            csv << [sheet.file.split('/')[-1], Time.now.to_s, 'Archive', 'data_validation', 'closing date predating purchase date'.to_s, value_issues]
+          end
+
+          if value_issues.length > 20
+            value_issues = ["More than 20 issues found. Some examples are the following:", value_issues[0], value_issues[9], value_issues[-1]]
+          end 
+
           @issues['closing date predating purchase date'] = value_issues
         end
       end
@@ -57,6 +79,14 @@ class DataValidation
         if @yaml.include?(column)
           value_issues = parse_and_validate(column, @yaml[column]['parser'], @yaml[column]['present'])
           if value_issues.size > 0
+            CSV.open("stats-for-nerds.csv", "a") do |csv|
+              csv << [sheet.file.split('/')[-1], Time.now.to_s, 'Frontend', 'data_validation', column.to_s, value_issues]
+            end
+
+            if value_issues.length > 20
+              value_issues = ["More than 20 issues found. Some examples are the following:", value_issues[0], value_issues[9], value_issues[-1]]
+            end 
+
             @issues[column] = value_issues
           end
         end
@@ -69,6 +99,14 @@ class DataValidation
         if @yaml.include?(column)
           value_issues = parse_and_validate(column, @yaml[column]['parser'], @yaml[column]['present'])
           if value_issues.size > 0
+            CSV.open("stats-for-nerds.csv", "a") do |csv|
+              csv << [sheet.file.split('/')[-1], Time.now.to_s, 'Buyers', 'data_validation', column.to_s, value_issues]
+            end
+
+            if value_issues.length > 20
+             value_issues = ["More than 20 issues found. Some examples are the following:", value_issues[0], value_issues[9], value_issues[-1]]
+            end 
+
             @issues[column] = value_issues
           end
         end
@@ -116,13 +154,13 @@ class DataValidation
       end
     end
 
-    if invalid_values.length > 20
-      ["More than 20 issues found. Some examples are the following:", invalid_values[0], invalid_values[9], invalid_values[19]]
-    else
-      invalid_values
-    end
+    # if invalid_values.length > 20
+    #   ["More than 20 issues found. Some examples are the following:", invalid_values[0], invalid_values[9], invalid_values[19]]
+    # else
+    #   invalid_values
+    # end
 
-    # invalid_values
+    invalid_values
   end
 
   def valid?(val, validation_type)
