@@ -203,7 +203,7 @@ class DataValidation
 
     when 'is_interest_rate'
       val_s.match?(/\A\d*\.?\d*\z/) &&
-      val_s.to_f >= 0 &&
+      val_s.to_f > 0 &&
       val_s.to_f < 13
 
     when 'is_phone'
