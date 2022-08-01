@@ -155,7 +155,7 @@ class ValidateHeaders
 
       if sheet.nmls_ids == 'error'
         CSV.open("stats-for-nerds.csv", "a") do |csv|
-          csv << [sheet.file.split('/')[-1], Time.now.to_s, 'Archive', 'header_validation', 'nmls_origintor_syntax']
+          csv << [sheet.file.split('/')[-1], Time.now.to_s, 'Archive', 'header_validation', 'nmls_originator_syntax']
         end
 
         @issues['NMLS Originator ID Missing or Incorrectly Capatilzied'] = true
